@@ -1,0 +1,59 @@
+{{#d-modal-body class="assign"}}
+  <div class="wemix__modal" aria-wemix-modal="true">
+    <section class="wemix__modal-set">
+      <div class="wemix__modal-close"><img
+        src="https://file.mir4global.com/xdraco-dsp/wemix/sdk/templete/qr/ico-close.svg" alt=""></div>
+      <div class="wemix__modal-title"><img
+        src="https://file.mir4global.com/xdraco-dsp/wemix/sdk/templete/qr/ico-logo.svg" height="75" width="75"
+        alt="WEMIX"> <label class="wemix__modal-title-prefix">连接</label> <img
+        src="https://file.mir4global.com/xdraco-dsp/wemix/sdk/templete/qr/ico-logo-text.svg" height="75" width="auto"
+        alt="WEMIX"> <label></label></div>
+      <article class="wemix__modal-qrcode">
+        <div class="wemix__modal-qrcode-image">
+          <div class="wemix__modal-qrcode-image-refresh" style="display:none"><img
+            src="https://file.mir4global.com/xdraco-dsp/wemix/sdk/templete/qr/ico-refresh.svg" height="30" width="30">
+          </div>
+          <canvas class="wemix__qr-canvas" height="300" width="300" style="height: 300px; width: 300px;"></canvas>
+        </div>
+        <div class="wemix__modal-qrcode-timer"><p>剩余时间 <span class="wemix__modal-qrcode-remain">1分 8秒</span></p></div>
+        <div class="wemix__modal-qrcode-warning"> 通过WEMIX Wallet 扫描二维码。</div>
+      </article>
+      <article class="wemix__modal__notice">
+        <div>
+          <div class="wemix__modal__flow">
+            <div class="wemix__modal__flow-wrap"><span>step<em>1</em></span>
+              <div class="wemix__modal__flow-icon app"><img class="wemix__modal__flow-icon--app"
+                                                            src="https://file.mir4global.com/xdraco-dsp/wemix/sdk/templete/qr/ico-logo.svg"
+                                                            alt=""></div>
+              <p>运行WEMIX Wallet </p></div>
+            <img class="wemix__modal__flow-arrow"
+                 src="https://file.mir4global.com/xdraco-dsp/wemix/sdk/templete/qr/ico-arrow.svg" alt="pointer"></div>
+          <div class="wemix__modal__flow">
+            <div class="wemix__modal__flow-wrap"><span>step<em>2</em></span>
+              <div class="wemix__modal__flow-icon"><img class="wemix__modal__flow-icon--scan"
+                                                        src="https://file.mir4global.com/xdraco-dsp/wemix/sdk/templete/qr/ico-scan.svg"
+                                                        alt=""></div>
+              <p>点击上方按钮</p></div>
+            <img class="wemix__modal__flow-arrow"
+                 src="https://file.mir4global.com/xdraco-dsp/wemix/sdk/templete/qr/ico-arrow.svg" alt="pointer"></div>
+          <div class="wemix__modal__flow">
+            <div class="wemix__modal__flow-wrap"><span>step<em>3</em></span>
+              <div class="wemix__modal__flow-icon"><img class="wemix__modal__flow-icon--auth"
+                                                        src="https://file.mir4global.com/xdraco-dsp/wemix/sdk/templete/qr/ico-auth.svg"
+                                                        alt=""></div>
+              <p>扫描后验证</p></div>
+          </div>
+        </div>
+        <div class="wemix__modal__step-warning"><span>* 可用其他二维码阅读器扫描。</span></div>
+      </article>
+    </section>
+  </div>
+{{/d-modal-body}}
+
+<div class="modal-footer">
+  {{d-button
+    icon=inviteIcon
+    class="btn-primary"
+    disabled=disabled
+  }}
+</div>

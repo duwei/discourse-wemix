@@ -1,4 +1,8 @@
 plugins:
-  plugin_name_enabled:
-    default: true
+  wemix_enabled:
+    default: false
     client: true
+  wemix_client_id:
+    default: ''
+  wemix_secret:
+    default: ''

@@ -1,4 +1,4 @@
-# **Plugin Name** Plugin
+# **Wemix Discourse plugin**
 
 **Plugin Summary**
 
