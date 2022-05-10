@@ -41,7 +41,7 @@ createWidget("wallet-menu-qrcode", {
 
 export default createWidget('wallet-menu', {
   buildKey: () => "wallet-menu",
-  tagName: 'div.wallet-panel',
+  tagName: 'div.wallet-menu',
 
   settings: {
     maxWidth: 320
