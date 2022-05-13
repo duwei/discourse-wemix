@@ -7,7 +7,6 @@ import { h } from "virtual-dom";
 // import { later } from "@ember/runloop";
 
 // const flatten = (array) => [].concat.apply([], array);
-import { wemix } from "../../../lib/wemix";
 
 createWidget("wallet-menu-detail", {
   tagName: "div.wrap",
@@ -69,11 +68,8 @@ export default createWidget('wallet-menu', {
 
     state.loading = true;
 
-    return ajax("/wemix/test")
-      .then((data) => {
-        console.log(data);
-        state.connected = true;
-      })
+    return ajax("/review/count.json")
+      .then(({ }) => state.connected = true)
       .finally(() => {
         state.loaded = true;
         state.loading = false;
@@ -82,16 +78,8 @@ export default createWidget('wallet-menu', {
   },
 
   html(atts, state) {
-    if (state.loaded) {
+    if (!state.loaded) {
       this.retrieveWalletStatus(state);
-    } else {
-      window.wemix().openQR("auth",null,
-        success=>{
-          console.log("Login Result:"+success.statusText);
-        },
-        fail=>{
-          console.log(fail);
-        });
     }
     return this.attach('menu-panel', {
       contents: () => this.panelContents(),
