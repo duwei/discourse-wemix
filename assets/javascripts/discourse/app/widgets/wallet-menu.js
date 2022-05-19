@@ -117,10 +117,28 @@ export default createWidget('wallet-menu', {
       // this.retrieveWalletStatus(state);
       wemix.openQR("auth",null,
         success=>{
+          console.log(success);
+          wemix.login().then(
+            ok => {
+              console.log(ok);
+              return ajax("/wemix/connect", {
+                type: "PUT",
+                data: {
+                  wemix_id: ok.data.userID,
+                  wemix_address: ok.data.address
+                }
+              }).then((data) => {
+                console.log(data);
           state.connected = true;
           sessionStorage.setItem(WALLET_STATUS, true);
-          console.log(success);
-          wemix.login().then(ok => {console.log(ok)}, ng => {console.log(ng)});
+              }).finally(() => {
+                  this.scheduleRerender();
+              });
+            },
+            ng => {
+              console.log(ng);
+            }
+          );
           console.log(user);
         },
         fail=>{
