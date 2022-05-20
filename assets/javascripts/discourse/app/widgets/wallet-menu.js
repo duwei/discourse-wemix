@@ -5,6 +5,7 @@ import { ajax } from "discourse/lib/ajax";
 // import getURL from "discourse-common/lib/get-url";
 import { h } from "virtual-dom";
 // import { later } from "@ember/runloop";
+import { getOwner } from "discourse-common/lib/get-owner";
 
 // const flatten = (array) => [].concat.apply([], array);
 const WALLET_STATUS = "wallet-status";
@@ -37,18 +38,28 @@ createWidget("wallet-menu-detail", {
     console.log(state);
     if (!state.loaded) {
       this.updateBalances(state);
+      // this.updatePoint(state);
     }
+    const owner = getOwner(this);
+    if (owner.isDestroyed || owner.isDestroying) {
+      return;
+    }
+
+    const siteSettings = owner.lookup("site-settings:main");
     let contents = [];
     let inner = [];
     let keys = Object.keys(this.state.balances);
+    const tokens = siteSettings.wemix_tokens.split(",");
     for(let i=0;i<keys.length;i++){
+      if (tokens.indexOf(keys[i]) !== -1) {
       contents.push(h("div.hc-column",keys[i]+":"+this.state.balances[keys[i]]));
+    }
     }
     let row1 = h("div.row-cont", contents);
     let h1 = h('div.top-spot',h('h1','Tokens'));
-    let bottoni = [];
+    let bottoni = [h("div.hc-column","point :" + this.currentUser.get('point'))];
     let row2 = h("div.row-cont", bottoni);
-    inner.push(h1,row1,row2);
+    inner.push(h1,row2,row1);
     return h("div.hc-banner",inner);
   },
 });
@@ -76,11 +87,11 @@ export default createWidget('wallet-menu', {
   },
 
   panelContents() {
-    if (this.state.connected) {
+    // if (this.state.connected) {
       return this.attach("wallet-menu-detail");
-    } else {
-      return this.attach("wallet-menu-qrcode");
-    }
+    // } else {
+    //   return this.attach("wallet-menu-qrcode");
+    // }
   },
 
   defaultState() {
@@ -88,7 +99,7 @@ export default createWidget('wallet-menu', {
     return { loaded: false, connected: wallet_status };
   },
 
-  retrieveWalletStatus(state) {
+  testApi(state) {
     const { currentUser } = this;
 
     if (state.loading || !currentUser) {
@@ -97,15 +108,11 @@ export default createWidget('wallet-menu', {
 
     state.loading = true;
 
-    return ajax("/wemix/test")
+    return ajax("/wemix/point")
       .then((data) => {
         console.log(data);
-        state.connected = true;
       })
       .finally(() => {
-        state.loaded = true;
-        state.loading = false;
-        this.scheduleRerender();
       });
   },
 
@@ -114,7 +121,7 @@ export default createWidget('wallet-menu', {
     console.log("menu");
     console.log(state);
     if (!state.connected) {
-      // this.retrieveWalletStatus(state);
+      // this.testApi(state);
       wemix.openQR("auth",null,
         success=>{
           console.log(success);

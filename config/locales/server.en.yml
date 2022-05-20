@@ -1,5 +1,8 @@
 en:
   site_settings:
     wemix_enabled: 'Allow users to connect Wemix wallet?'
+    wemix_tokens: 'Tokens to be displayed (comma-delimited)'
     wemix_client_id: 'Wemix Client ID (need one? visit <a href="https://forum.wemixnetwork.com/">https://forum.wemixnetwork.com/</a>)'
     wemix_secret: 'Wemix Secret Key'
+    topic_point: 'Topic Point'
+    post_point: 'Post point'

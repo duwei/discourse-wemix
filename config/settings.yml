@@ -4,5 +4,12 @@ plugins:
     client: true
   wemix_client_id:
     default: ''
+  wemix_tokens:
+    client: true
+    default: 'SampleERC20, MINCO'
   wemix_secret:
     default: ''
+  topic_point:
+    default: 50
+  post_point:
+    default: 10

@@ -12,6 +12,11 @@ module DiscourseWemix
       render json: { code:0, message: "" }
     end
 
+    def point
+      count = Activity::where(user_id: current_user.id(), pay_at: nil).sum(:amount)
+      render json: { code:0, message: "", point: count }
+    end
+
     def index
       # post_id = params.require(:post_id)
       # poll_name = params.require(:poll_name)
