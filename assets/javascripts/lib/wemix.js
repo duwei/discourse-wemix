@@ -3696,14 +3696,15 @@ _wemix_base__WEBPACK_IMPORTED_MODULE_1__["default"].prototype.setEnv = function 
   Object.keys(env).forEach(function (k) {
     _this.env()[k] = env[k];
   }); //this.env = env;    
-  // if(this.storage().storage==null){
-  //     console.info("you can set wemix storage with setStorage(storage,key) function");
-  //     return;
-  // }
-  // if(this.storage().getKeyValue()!=null){
-  //     axios.setAccessToken(this.storage(),this.storage().getKeyValue());
-  //     this.login("ko");
-  // }
+
+  if (this.storage().storage == null) {
+    console.info("you can set wemix storage with setStorage(storage,key) function");
+    return;
+  }
+
+  if (this.storage().getKeyValue() != null) {
+    _axios__WEBPACK_IMPORTED_MODULE_0__["default"].setAccessToken(this.storage(), this.storage().getKeyValue()); // this.login("ko");
+  }
 };
 
 _wemix_base__WEBPACK_IMPORTED_MODULE_1__["default"].prototype.verify = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
@@ -4007,8 +4008,8 @@ _wemix_base__WEBPACK_IMPORTED_MODULE_0__["default"].prototype._listenQR = functi
               code: result.data.result,
               grant_type: "code"
             }).then(function (c) {
-              _axios__WEBPACK_IMPORTED_MODULE_4__["default"].setAccessToken(self.storage(), c.data.access_token);
-              self.login("ko");
+              _axios__WEBPACK_IMPORTED_MODULE_4__["default"].setAccessToken(self.storage(), c.data.access_token); // self.login("ko");
+
               success(c);
               self.getQR().btnClose.click();
             })["catch"](function (err) {
