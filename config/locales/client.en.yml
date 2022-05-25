@@ -2,3 +2,4 @@ en:
   js:
     wallet:
       title: 'Wemix Wallet'
+      dollar: 'Exchange Tokens'

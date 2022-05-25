@@ -19,15 +19,22 @@ function initializeDetails(api) {
     if (siteSettings.wemix_enabled && api.getCurrentUser()) {
       const headerState = helper.widget.parentWidget.state;
 
-      return helper.attach("header-dropdown", {
-        title: "wallet.title",
-        icon: "wallet",
-        iconId: "wallet-button",
-        action: "toggleWalletMenu",
-        active: headerState.walletVisible,
-        href: getURL("/wallet"),
-        classNames: ["wallet-dropdown"],
-      });
+      return [
+        helper.attach("header-dropdown", {
+          title: "wallet.title",
+          icon: "wallet",
+          iconId: "wallet-button",
+          action: "toggleWalletMenu",
+          active: headerState.walletVisible,
+          href: getURL("/wallet"),
+          classNames: ["wallet-dropdown"],
+        }),
+        helper.h('li.d-header-icons', helper.h('a.icon.btn-flat', helper.attach("wallet-dollar")))
+        // h('li.d-header-icons', h('a.icon.btn-flat', {
+        //     attributes: { href: "/dollar", title: I18n.t("wallet.dollar") } },
+        //   iconNode('dollar-sign'))
+        // )
+      ];
     }
   });
 

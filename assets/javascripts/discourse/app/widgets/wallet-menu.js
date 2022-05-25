@@ -6,9 +6,8 @@ import { ajax } from "discourse/lib/ajax";
 import { h } from "virtual-dom";
 // import { later } from "@ember/runloop";
 import { getOwner } from "discourse-common/lib/get-owner";
-
+import wemixSdk from "../../../lib/wemix-sdk";
 // const flatten = (array) => [].concat.apply([], array);
-const WALLET_STATUS = "wallet-status";
 
 createWidget("wallet-menu-detail", {
   buildKey: () => "wallet-menu-tokens",
@@ -81,20 +80,6 @@ createWidget("wallet-menu-detail", {
   },
 });
 
-createWidget("wallet-menu-qrcode", {
-  tagName: "div.wrap",
-  html() {
-    let contents = [];
-    let row1 = h("div.row-cont", contents);
-    let h1 = h('div.top-spot',h('h1','QRCode'));
-    let inner = [];
-    let bottoni = [];
-    let row2 = h("div.row-cont", bottoni);
-    inner.push(h1,row1,row2);
-    return h("div.hc-banner",inner);
-  },
-});
-
 export default createWidget('wallet-menu', {
   buildKey: () => "wallet-menu",
   tagName: 'div.wallet-menu',
@@ -104,16 +89,11 @@ export default createWidget('wallet-menu', {
   },
 
   panelContents() {
-    // if (this.state.connected) {
-      return this.attach("wallet-menu-detail");
-    // } else {
-    //   return this.attach("wallet-menu-qrcode");
-    // }
+    return this.attach("wallet-menu-detail");
   },
 
   defaultState() {
-    let wallet_status = sessionStorage.getItem(WALLET_STATUS) || false;
-    return { loaded: false, connected: wallet_status };
+    return { loaded: false };
   },
 
   testApi(state) {
@@ -134,40 +114,12 @@ export default createWidget('wallet-menu', {
   },
 
   html(atts, state) {
-    let wemix = window.wemix();
-    console.log("menu");
-    console.log(state);
-    if (!state.connected) {
-      // this.testApi(state);
-      wemix.openQR("auth",null,
-        success=>{
-          console.log(success);
-          wemix.login().then(
-            ok => {
-              console.log(ok);
-              return ajax("/wemix/connect", {
-                type: "PUT",
-                data: {
-                  wemix_id: ok.data.userID,
-                  wemix_address: ok.data.address
-                }
-              }).then((data) => {
-                console.log(data);
-                state.connected = true;
-                sessionStorage.setItem(WALLET_STATUS, true);
-              }).finally(() => {
-                  this.scheduleRerender();
-              });
-            },
-            ng => {
-              console.log(ng);
-            }
-          );
-          console.log(user);
-        },
-        fail=>{
-          console.log(fail);
-        });
+    if (!wemixSdk.getWallet()) {
+      let onUpdate = function (data) {
+        console.log(data);
+        this.scheduleRerender();
+      };
+      wemixSdk.auth(onUpdate);
     } else {
       return this.attach('menu-panel', {
         contents: () => this.panelContents(),

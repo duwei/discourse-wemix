@@ -1,7 +1,7 @@
 import { wemix } from "../lib/wemix";
 
 export default {
-  name: "wemix-sdk",
+  name: "init-wemix",
   initialize() {
     console.log("init wemix sdk");
   },

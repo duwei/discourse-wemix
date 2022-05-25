@@ -12,6 +12,7 @@ enabled_site_setting :wemix_enabled
 
 register_asset "stylesheets/common.scss"
 register_svg_icon "wallet" if respond_to?(:register_svg_icon)
+register_svg_icon "dollar-sign" if respond_to?(:register_svg_icon)
 
 after_initialize do
   module ::DiscourseWemix
