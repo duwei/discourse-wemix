@@ -18,8 +18,8 @@ export default {
             ajax("/wemix/connect", {
               type: "PUT",
               data: {
-                wemix_id: success.data.userID,
-                wemix_address: success.data.address
+                wemix_id: ok.data.userID,
+                wemix_address: ok.data.address
               }
             }).then((data) => {
               sessionStorage.setItem(WALLET_DATA, ok.data);
