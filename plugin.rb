@@ -11,8 +11,13 @@
 enabled_site_setting :wemix_enabled
 
 register_asset "stylesheets/common.scss"
-register_svg_icon "wallet" if respond_to?(:register_svg_icon)
-register_svg_icon "dollar-sign" if respond_to?(:register_svg_icon)
+register_svg_icon "wallet"
+register_svg_icon "dollar-sign"
+
+extend_content_security_policy(
+  script_src: ['https://storage.cloud.google.com/wemix/wemix.js'],
+  object_src: []
+)
 
 after_initialize do
   module ::DiscourseWemix
@@ -35,40 +40,45 @@ after_initialize do
   DiscourseWemix::Engine.routes.draw do
     put "/connect" => 'wemix#connect'
     get "/point" => 'wemix#point'
+    post "/point/tx" => 'wemix#point_tx'
+    post "/exchange" => 'wemix#exchange'
   end
 
   Discourse::Application.routes.append do
     mount ::DiscourseWemix::Engine, at: "/wemix"
   end
 
-  DiscourseEvent.on(:topic_created) do |topic, _opts, user|
+  def update_point(point_type, amount, user)
     activity = DiscourseWemix::Activity.new(
-      activity_type: DiscourseWemix::POINT_TYPE_TOPIC,
-      amount: SiteSetting.topic_point,
-    )
+      activity_type: point_type,
+      amount: amount,
+      wemix_id: user.wemix_id,
+      wemix_address: user.wemix_address,
+      )
     activity.user = user
-    activity.save()
+    activity.save!
+    user.point = user.point() + amount
+    user.save!
+  end
+
+  DiscourseEvent.on(:topic_created) do |topic, _opts, user|
+    update_point(DiscourseWemix::POINT_TYPE_TOPIC, SiteSetting.topic_point, user)
   end
 
   DiscourseEvent.on(:post_created) do |post, _opts, user|
     if post.post_number() > 1
-      activity = DiscourseWemix::Activity.new(
-        activity_type: DiscourseWemix::POINT_TYPE_POST,
-        amount: SiteSetting.post_point,
-        )
-      activity.user = user
-      activity.save()
+      update_point(DiscourseWemix::POINT_TYPE_POST, SiteSetting.post_point, user)
     end
   end
 
-  require_dependency 'current_user_serializer'
-  class ::CurrentUserSerializer
-    attributes :point
-
-    def point
-      DiscourseWemix::Activity::where(user_id: object.id(), pay_at: nil).sum(:amount)
-    end
-  end
+  # require_dependency 'current_user_serializer'
+  # class ::CurrentUserSerializer
+  #   attributes :point
+  #
+  #   def point
+  #     DiscourseWemix::Activity::where(user_id: object.id(), pay_at: nil).sum(:amount)
+  #   end
+  # end
 
   # load File.expand_path('../config/routes.rb', __FILE__)
 end

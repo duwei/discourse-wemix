@@ -19,11 +19,20 @@ export default createWidget('wallet-dollar', {
     return [iconNode('dollar-sign', { title: I18n.t("wallet.dollar")})];
   },
 
-  getRawMessage() {
+  getPointMessage() {
     console.log("getRawMessage");
+    return ajax("/wemix/point/tx", {
+      type: "POST",
+    }).then((data) => {
+      if (data.code === 0) {
+        wemixSdk.signMessage(data.message, data.data);
+      }
+    }).finally(() => {
+    });
   },
 
   click() {
+    return this.sendWidgetAction("getPointMessage", {});
     if (!wemixSdk.getWallet()) {
       wemixSdk.auth();
     } else {

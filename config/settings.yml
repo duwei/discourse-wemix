@@ -6,9 +6,15 @@ plugins:
     default: ''
   wemix_tokens:
     client: true
-    default: 'SampleERC20, MINCO'
+    default: 'SampleERC20,MINCO'
   wemix_secret:
     default: ''
+  wemix_chain:
+    default: 'tornado'
+  wemix_token:
+    default: 'SampleERC20'
+  binder_url:
+    default: 'https://dev-binder.wemix.co/'
   topic_point:
     default: 50
   post_point:
