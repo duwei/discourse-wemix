@@ -52,7 +52,7 @@ createWidget("wallet-menu-detail", {
     console.log(state);
     if (!state.loaded) {
       this.updateBalances(state);
-      // this.updatePoint(state);
+      this.updatePoint(state);
     }
     const owner = getOwner(this);
     if (owner.isDestroyed || owner.isDestroying) {
