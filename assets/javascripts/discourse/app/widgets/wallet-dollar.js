@@ -32,13 +32,14 @@ export default createWidget('wallet-dollar', {
   },
 
   click() {
+    // return this.sendWidgetAction("getPointMessage", {});
     if (!wemixSdk.getWallet()) {
       wemixSdk.auth();
     } else {
       console.log("bbb");
       // showModal("test");
       // this.attach("wallet-banner");
-      this.sendWidgetAction("getRawMessage", {});
+      this.sendWidgetAction("getPointMessage", {});
     }
   },
 
