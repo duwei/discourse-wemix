@@ -65,16 +65,19 @@ module DiscourseWemix
 
     def point_tx
       user_address = current_user.wemix_address
-      render json: { code:0, message: "", data:
+      render json: { code:0, message: I18n.t("wemix.point_tx", count: current_user.point), data:
         [{
            message:[
-             {type: "address", value: contract_address, name: "contract"},
-             {type: "address", value: user_address, name: "user"},
-             {type: "uint256", value: nonce(user_address)[0], name: "nonce"},
+             # {type: "address", value: contract_address, name: "contract"},
+             # {type: "address", value: user_address, name: "user"},
+             # {type: "uint256", value: nonce(user_address)[0], name: "nonce"},
+             # {type: "uint256", value: current_user.point, name: "amount"},
+             {type: "address", value: "0x94444d3206cccb2e03fa9abc9722c533d26c21a5", name: "contract"},
+             {type: "address", value: "0xb1e2e0b9016e76d6010a122197bd084978baa27a", name: "user"},
+             {type: "uint256", value: "0", name: "nonce"},
              {type: "uint256", value: current_user.point, name: "amount"},
            ],
            chain: SiteSetting.wemix_chain,
-           memo: I18n.t("wemix.point_tx", count: current_user.point),
          }]
       }
     end
