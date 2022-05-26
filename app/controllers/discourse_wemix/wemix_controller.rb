@@ -73,7 +73,7 @@ module DiscourseWemix
              # {type: "uint256", value: nonce(user_address)[0], name: "nonce"},
              # {type: "uint256", value: current_user.point, name: "amount"},
              {type: "address", value: "0x94444d3206cccb2e03fa9abc9722c533d26c21a5", name: "contract"},
-             {type: "address", value: "0xb1e2e0b9016e76d6010a122197bd084978baa27a", name: "user"},
+             {type: "address", value: "0x4818fb7d10639d7b42b4cdf7c022d901e7190c83", name: "user"},
              {type: "uint256", value: "0", name: "nonce"},
              {type: "uint256", value: current_user.point.to_s, name: "amount"},
            ],
