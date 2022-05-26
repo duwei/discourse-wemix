@@ -32,7 +32,6 @@ export default createWidget('wallet-dollar', {
   },
 
   click() {
-    return this.sendWidgetAction("getPointMessage", {});
     if (!wemixSdk.getWallet()) {
       wemixSdk.auth();
     } else {

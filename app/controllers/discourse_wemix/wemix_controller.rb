@@ -73,7 +73,8 @@ module DiscourseWemix
              {type: "uint256", value: nonce(user_address)[0], name: "nonce"},
              {type: "uint256", value: current_user.point, name: "amount"},
            ],
-           chain: SiteSetting.wemix_chain
+           chain: SiteSetting.wemix_chain,
+           memo: I18n.t("wemix.point_tx", count: current_user.point),
          }]
       }
     end

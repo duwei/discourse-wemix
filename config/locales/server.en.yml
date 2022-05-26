@@ -6,3 +6,5 @@ en:
     wemix_secret: 'Wemix Secret Key'
     topic_point: 'Topic Point'
     post_point: 'Post point'
+  wemix:
+    point_tx: "redeem %{count} coins"
