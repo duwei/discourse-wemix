@@ -39,7 +39,7 @@ export default {
 
   signMessage(memo, message) {
     let { req } = wemix.requestMessageSignature(memo, "none", message);
-    wemix().openQR("sign",req,
+    wemix.openQR("sign",req,
       success=>{
         console.log(success);
         const last = success[success.length-1];
