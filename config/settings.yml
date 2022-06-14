@@ -15,6 +15,10 @@ plugins:
     default: 'SampleERC20'
   binder_url:
     default: 'https://dev-binder.wemix.co/'
+  vks_url:
+    default: 'https://dev-vks.wemix.co/'
+  vks_credentials:
+    default: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjQxMzM4OTQ0MDAsImlhdCI6MTYyOTQyNDI5Mn0.HkTFHEIDpm4Cb31k-a2IiIlH2iYprcIdqilXlCSzFMA'
   topic_point:
     default: 50
   post_point:

@@ -13,13 +13,14 @@ createWidget("wallet-menu-detail", {
   buildKey: () => "wallet-menu-tokens",
   tagName: "div.wrap",
   defaultState() {
-    return { balances: [], loaded: false, loading:false, refresh_point: false };
+    return { balances: [], load_point: false, load_balances: false };
   },
-  updatePoint(state) {
-    if (state.refresh_point) {
+
+  loadPoint(state) {
+    if (state.load_point) {
       return;
     }
-    state.refresh_point = true;
+    state.load_point = true;
 
     return ajax("/wemix/point")
       .then((data) => {
@@ -27,33 +28,29 @@ createWidget("wallet-menu-detail", {
         this.scheduleRerender();
       })
       .finally(() => {
-        state.refresh_point = false;
       });
   },
-  updateBalances(state) {
-    if (state.loading) {
+
+  loadBalances(state) {
+    if (state.load_balances) {
       return;
     }
-    state.loading = true;
+    state.load_balances = true;
 
     let wemix = window.wemix();
     return wemix.balanceAll().then(c=>{
       state.balances = c.data.balances;
-      state.loaded = true;
       this.scheduleRerender();
     }).catch(error=>{
       console.log(error);
     }).finally(() => {
-      state.loading = false;
     });
   },
+
   html(atts, state) {
-    console.log("menu-tokens");
-    console.log(state);
-    if (!state.loaded) {
-      this.updateBalances(state);
-      this.updatePoint(state);
-    }
+    this.loadPoint(state);
+    this.loadBalances(state);
+
     const owner = getOwner(this);
     if (owner.isDestroyed || owner.isDestroying) {
       return;
@@ -61,22 +58,20 @@ createWidget("wallet-menu-detail", {
 
     const siteSettings = owner.lookup("site-settings:main");
     let contents = [];
-    let inner = [];
     let keys = Object.keys(this.state.balances);
     const tokens = siteSettings.wemix_tokens.split(",").map(function(item) {
       return item.trim();
     });
     for(let i=0;i<keys.length;i++){
       if (tokens.indexOf(keys[i]) !== -1) {
-        contents.push(h("div.hc-column",keys[i]+":"+this.state.balances[keys[i]]));
+        contents.push(h("div.wallet-column",keys[i]+":"+this.state.balances[keys[i]]));
       }
     }
-    let row1 = h("div.row-cont", contents);
-    let h1 = h('div.top-spot',h('h1','Tokens'));
-    let bottoni = [h("div.hc-column","point :" + this.currentUser.get('point'))];
-    let row2 = h("div.row-cont", bottoni);
-    inner.push(h1,row2,row1);
-    return h("div.hc-banner",inner);
+    let row1 = h("div.wallet-tokens", contents);
+    let h1 = h('div.wallet-title',h('h1','Tokens'));
+    let point = [h("div.wallet-column","point :" + this.currentUser.get('point'))];
+    let row2 = h("div.wallet-point", point);
+    return h("div.wallet-contents", [h1, row1, row2]);
   },
 });
 
@@ -114,7 +109,7 @@ export default createWidget('wallet-menu', {
   },
 
   html(atts, state) {
-    if (!wemixSdk.getWallet()) {
+    if (wemixSdk.getToken() === null) {
       let onUpdate = function (data) {
         console.log(data);
         this.scheduleRerender();

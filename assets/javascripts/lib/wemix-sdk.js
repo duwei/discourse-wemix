@@ -1,13 +1,12 @@
 import { ajax } from "discourse/lib/ajax";
 
 let wemix = window.wemix();
-const WALLET_DATA = "wallet-data";
 
 export default {
   name: "wemix-sdk",
 
-  getWallet() {
-    return sessionStorage.getItem(WALLET_DATA);
+  getToken() {
+    return wemix.storage().getKeyValue();
   },
 
   auth(onUpdate){
@@ -22,7 +21,6 @@ export default {
                 wemix_address: ok.data.address
               }
             }).then((data) => {
-              sessionStorage.setItem(WALLET_DATA, ok.data);
               if (onUpdate) {onUpdate(data);}
             }).finally(() => {
             });
@@ -47,7 +45,7 @@ export default {
       },
       fail=>{
         console.log(fail);
-        alert("트랜젝션 수행 중 오류가 발생 하였습니다. 개발자 모드의 로그를 확인 바랍니다.");
+        // alert("트랜젝션 수행 중 오류가 발생 하였습니다. 개발자 모드의 로그를 확인 바랍니다.");
       });
   }
 };

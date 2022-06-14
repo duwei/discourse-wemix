@@ -7,4 +7,6 @@ en:
     topic_point: 'Topic Point'
     post_point: 'Post point'
   wemix:
+    point_not_enough: "not enough points"
     point_tx: "redeem %{count} coins"
+    address_mismatch: "address mismatch"
