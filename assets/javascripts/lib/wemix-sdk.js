@@ -8,7 +8,7 @@ export default {
   getToken() {
     let token = wemix.storage().getKeyValue();
     console.log(token);
-    return token;
+    return wemix.tokenAll();
   },
 
   auth(onUpdate){

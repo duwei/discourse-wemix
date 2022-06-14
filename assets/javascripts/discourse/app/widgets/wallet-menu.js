@@ -109,7 +109,7 @@ export default createWidget('wallet-menu', {
   },
 
   html(atts, state) {
-    if (wemixSdk.getToken() === null) {
+    if (wemixSdk.getToken() == null) {
       let onUpdate = function (data) {
         console.log(data);
         this.scheduleRerender();
