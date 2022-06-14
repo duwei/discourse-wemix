@@ -6,7 +6,9 @@ export default {
   name: "wemix-sdk",
 
   getToken() {
-    return wemix.storage().getKeyValue();
+    let token = wemix.storage().getKeyValue();
+    console.log(token);
+    return token;
   },
 
   auth(onUpdate){
