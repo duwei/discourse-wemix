@@ -26,19 +26,19 @@ export default createWidget('wallet-dollar', {
     }).then((data) => {
       if (data.code === 0) {
         console.log(data);
-        wemixSdk.signMessage(data.message, data.data);
-        // return ajax("/wemix/exchange", {
-        //   type: "POST",
-        //   data: {
-        //     signature: "0xdfd077fdc86b7324764f0d00255efe66173b54f2c7a71cfe592de48a513038de6de37caa9dcb792ca3d99f5d295e34b6c3351260abd549a74f3fedc0a25931ce1c",
-        //   }
-        // }).then((data) => {
-        //   if (data.code === 0) {
-        //     console.log(data);
-        //     // wemixSdk.signMessage(data.message, data.data);
-        //   }
-        // }).finally(() => {
-        // });
+        // wemixSdk.signMessage(data.message, data.data);
+        return ajax("/wemix/exchange", {
+          type: "POST",
+          data: {
+            signature: "0x0425b8292c36325fa2c023fb55c6efad2e9db7cec27ff9dc01a90851da4b85297751031fc4dc3338da80f4d2ff21d364e0eb0d33c194c0e21108cf3ec35723fe1b",
+          }
+        }).then((data) => {
+          if (data.code === 0) {
+            console.log(data);
+            // wemixSdk.signMessage(data.message, data.data);
+          }
+        }).finally(() => {
+        });
       }
     }).finally(() => {
     });

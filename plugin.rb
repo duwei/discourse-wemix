@@ -13,6 +13,7 @@ enabled_site_setting :wemix_enabled
 register_asset "stylesheets/common.scss"
 register_svg_icon "wallet"
 register_svg_icon "dollar-sign"
+register_svg_icon "file-invoice-dollar"
 
 extend_content_security_policy(
   script_src: ['https://storage.cloud.google.com/wemix/wemix.js'],
@@ -25,6 +26,7 @@ after_initialize do
     POINT_TYPE_TOPIC ||= 1
     POINT_TYPE_POST ||= 2
     POINT_TYPE_TOKEN ||= 3
+    DAILY_REWARD ||= 4
 
     class Engine < ::Rails::Engine
       engine_name PLUGIN_NAME
@@ -39,9 +41,16 @@ after_initialize do
 
   DiscourseWemix::Engine.routes.draw do
     put "/connect" => 'wemix#connect'
+    get "/point/daily_reward" => 'wemix#point_daily_reward'
     get "/point" => 'wemix#point'
     post "/point/tx" => 'wemix#point_tx'
     post "/exchange" => 'wemix#exchange'
+    post "/nft/approve_tx" => 'wemix#approve_tx'
+    post "/nft/approve" => 'wemix#approve'
+    post "/nft/mint_tx" => 'wemix#mint_tx'
+    post "/nft/mint" => 'wemix#mint'
+    get "/nft/list" => 'wemix#user_nft'
+    post "/nft/uri" => 'wemix#nft_uri'
   end
 
   Discourse::Application.routes.append do
@@ -59,6 +68,23 @@ after_initialize do
     activity.save!
     user.point = user.point() + amount
     user.save!
+  end
+
+  DiscourseEvent.on(:user_logged_in) do |user|
+    # DiscourseWemix::Activity.where(
+    #   user: user,
+    #   activity_type: DiscourseWemix::DAILY_REWARD,
+    #   created_at: Time.zone.today.beginning_of_day..Time.zone.today.end_of_day
+    # ).first_or_create do |activity|
+    #   activity.activity_type = DiscourseWemix::DAILY_REWARD
+    #   activity.amount = SiteSetting.daily_reward_point
+    #   activity.wemix_id = user.wemix_id
+    #   activity.wemix_address = user.wemix_address
+    #   activity.user = user
+    #
+    #   user.point = user.point() + activity.amount
+    #   user.save!
+    # end
   end
 
   DiscourseEvent.on(:topic_created) do |topic, _opts, user|

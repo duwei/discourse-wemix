@@ -7,6 +7,8 @@ en:
     topic_point: 'Topic Point'
     post_point: 'Post point'
   wemix:
-    point_not_enough: "not enough points"
-    point_tx: "redeem %{count} coins"
-    address_mismatch: "address mismatch"
+    server_error: "Server error"
+    point_not_enough: "Not enough points"
+    point_tx: "Redeem %{count} coins"
+    address_mismatch: "Address mismatch"
+    nft_tx: "Minting an NFT costs %{count} coins"

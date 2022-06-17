@@ -6,6 +6,7 @@ import Mobile from "discourse/lib/mobile";
 import getURL from "discourse-common/lib/get-url";
 import { createWidget } from 'discourse/widgets/widget';
 import { h } from "virtual-dom";
+import { ajax } from "discourse/lib/ajax";
 
 function initializeDetails(api) {
 
@@ -29,7 +30,8 @@ function initializeDetails(api) {
           href: getURL("/wallet"),
           classNames: ["wallet-dropdown"],
         }),
-        helper.h('li.d-header-icons', helper.h('a.icon.btn-flat', helper.attach("wallet-dollar")))
+        helper.h('li.d-header-icons', helper.h('a.icon.btn-flat', helper.attach("wallet-dollar"))),
+        helper.h('li.d-header-icons', helper.h('a.icon.btn-flat', helper.attach("wallet-nft"))),
         // h('li.d-header-icons', h('a.icon.btn-flat', {
         //     attributes: { href: "/dollar", title: I18n.t("wallet.dollar") } },
         //   iconNode('dollar-sign'))
@@ -44,6 +46,7 @@ function initializeDetails(api) {
 
   // const showModal = require("discourse/lib/show-modal").default;
   // showModal("test");
+  ajax("/wemix/point/daily_reward");
 }
 
 export default {

@@ -2,17 +2,19 @@ plugins:
   wemix_enabled:
     default: false
     client: true
-  wemix_client_id:
-    default: ''
+#  wemix_client_id:
+#    default: ''
+#  wemix_secret:
+#    default: ''
   wemix_tokens:
     client: true
     default: 'SampleERC20,MINCO'
-  wemix_secret:
-    default: ''
   wemix_chain:
     default: 'tornado'
-  wemix_token:
+  wemix_ft:
     default: 'SampleERC20'
+  wemix_nft:
+    default: 'SampleERC721'
   binder_url:
     default: 'https://dev-binder.wemix.co/'
   vks_url:
@@ -23,3 +25,9 @@ plugins:
     default: 50
   post_point:
     default: 10
+  daily_reward_point:
+    default: 30
+  mint_fee:
+    default: 100
+  nft_json:
+    default: '/hello.json'
